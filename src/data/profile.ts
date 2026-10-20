@@ -36,10 +36,12 @@ export const profile = {
   ],
 
   social: {
-    github: "https://github.com/DineshKumarBingi",
-    linkedin: "https://www.linkedin.com/in/dineshkumarbingi/",
-    email: "dineshkumarbingi@gmail.com",
-    // phone: "+91XXXXXXXXXX", // uncomment and fill when ready
+    github: "https://github.com/Dineshkumar2006471",
+    linkedin: "https://www.linkedin.com/in/bingidineshkumar18",
+    twitter: "https://x.com/Dk814032541",
+    email: "bingidineshkumar@gmail.com",
+    phone: "+91 6303048390",
+    resume: "/DK_Resume.pdf",
   },
 
   location: "India",

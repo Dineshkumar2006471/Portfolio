@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="infosys-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007CC3" />
+      <stop offset="100%" stop-color="#005A9E" />
+    </linearGradient>
+    <linearGradient id="leaf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFA800" />
+      <stop offset="100%" stop-color="#FF6B00" />
+    </linearGradient>
+    <filter id="info-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#007CC3" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Icon Crest -->
+  <g transform="translate(15, 15)">
+    <rect width="90" height="90" rx="22" fill="url(#infosys-grad)" filter="url(#info-shadow)" />
+    <!-- Dynamic springboard curved jump curve & spark -->
+    <path d="M 24 68 C 36 68 44 48 64 32" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" fill="none" />
+    <path d="M 32 72 C 44 72 52 56 68 42" stroke="rgba(255,255,255,0.4)" stroke-width="4" stroke-linecap="round" fill="none" />
+    <!-- Floating energy orb -->
+    <circle cx="68" cy="28" r="7" fill="url(#leaf-grad)" />
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(125, 48)">
+    <text font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="30" fill="#007CC3" letter-spacing="-0.5">
+      Infosys
+    </text>
+    <text x="0" y="32" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="700" font-size="18" fill="#4B5563" letter-spacing="2">
+      SPRINGBOARD
+    </text>
+  </g>
+</svg>
