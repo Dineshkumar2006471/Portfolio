@@ -76,13 +76,13 @@ Visitors can explore:
 
 | # | Project | Description | Role / Category | Tech Stack | Links |
 |---|---|---|---|---|---|
-| 01 | **AgentProof** | Verification layer converting natural-language promises into formal executable contracts. | Solo Architect · AI Infrastructure | AI Agents, Python, React, FastAPI | [GitHub](https://github.com/Dineshkumar2006471/AgentProof) |
-| 02 | **IntelliASHA** | Multi-agent field verification system for India's ASHA workers. Awarded 1st Place @ Google Office. | Lead Systems Architect · Healthcare AI | AI Agents, Python, FastAPI, Voice AI | [GitHub](https://github.com/Dineshkumar2006471/IntelliASHA) |
-| 03 | **CropSentinel** | AI-driven agricultural price intelligence & mandi analytics platform for Indian farmers. | Full-Stack Developer · AgriTech | React, Node.js, Python, FastAPI | [GitHub](https://github.com/Dineshkumar2006471/CropSentinel) |
-| 04 | **DealForge** | Autonomous revenue copilot conducting policy-compliant sales negotiations. | Lead Builder · SalesTech | AI Agents, React, TypeScript, Voice AI | [GitHub](https://github.com/Dineshkumar2006471/DealForge) |
-| 05 | **IntelliPlant** | Industrial intelligence copilot unifying engineering P&IDs into a connected knowledge graph. | Full-Stack Developer · Industrial AI | Knowledge Graph, React, Node.js | [GitHub](https://github.com/Dineshkumar2006471/Intelliplant) · [Live](https://intelliplant.vercel.app) |
-| 06 | **MedoVeda** | Health intelligence platform analyzing packaged food labels and clinical databases. | Full-Stack Developer · HealthTech | React, Anthropic Claude, Node.js | [GitHub](https://github.com/Dineshkumar2006471/Medo-veda) |
-| 07 | **CareerSpark** | AI career workspace with proctored exams and ATS resume scoring built during Infosys internship. | Full-Stack Developer · EdTech | React, Node.js, PostgreSQL, Cloud | [GitHub](https://github.com/Dineshkumar2006471/Career-Spark) · [Live](https://career-spark-ashy.vercel.app) |
+| 01 | **AgentProof** | Verification layer converting natural-language promises into formal executable contracts. | Solo Architect · AI Infrastructure | AI Agents, Python, React, FastAPI | [GitHub](https://github.com/Dineshkumar2006471/AgentProof) · [Live](https://agent-proof.dev) |
+| 02 | **IntelliASHA** | Multi-agent field verification system for India's ASHA workers. Awarded 1st Place @ Google Office. | Lead Systems Architect · Healthcare AI | AI Agents, Python, FastAPI, Voice AI | [GitHub](https://github.com/Dineshkumar2006471/IntelliASHA) · [Live](https://kavach-hackathon-500511.web.app/) |
+| 03 | **CropSentinel** | AI-driven agricultural price intelligence & mandi analytics platform for Indian farmers. | Full-Stack Developer · AgriTech | React, Node.js, Python, FastAPI | [GitHub](https://github.com/Dineshkumar2006471/CropSentinel) · [Live](https://cropsentinel-frontend-763833004328.asia-south1.run.app/) |
+| 04 | **DealForge** | Autonomous revenue copilot conducting policy-compliant sales negotiations. | Lead Builder · SalesTech | AI Agents, React, TypeScript, Voice AI | [GitHub](https://github.com/Dineshkumar2006471/DealForge) · [Live](https://dealforge-507515.web.app/) |
+| 05 | **IntelliPlant** | Industrial intelligence copilot unifying engineering P&IDs into a connected knowledge graph. | Full-Stack Developer · Industrial AI | Knowledge Graph, React, Node.js | [GitHub](https://github.com/Dineshkumar2006471/Intelliplant) · [Live](https://intelliplant.vercel.app/) |
+| 06 | **MedoVeda** | Health intelligence platform analyzing packaged food labels and clinical databases. | Full-Stack Developer · HealthTech | React, Anthropic Claude, Node.js | [GitHub](https://github.com/Dineshkumar2006471/Medo-veda) · [Live](https://medo-veda.netlify.app/) |
+| 07 | **CareerSpark** | AI career workspace with proctored exams and ATS resume scoring built during Infosys internship. | Full-Stack Developer · EdTech | React, Node.js, PostgreSQL, Cloud | [GitHub](https://github.com/Dineshkumar2006471/Career-Spark) · [Live](https://career-spark-ashy.vercel.app/) |
 
 ---
 

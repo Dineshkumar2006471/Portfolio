@@ -43,7 +43,7 @@ export const pinnedProjects: Project[] = [
     category: "AI Infrastructure",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/AgentProof",
-    liveUrl: "#",
+    liveUrl: "https://agent-proof.dev",
   },
   {
     id: "intelliasha",
@@ -61,8 +61,8 @@ export const pinnedProjects: Project[] = [
     image: "/assets/projects/Intelliasha.png",
     category: "Healthcare AI",
     featured: true,
-    liveUrl: "https://github.com/Dineshkumar2006471/IntelliASHA",
     githubUrl: "https://github.com/Dineshkumar2006471/IntelliASHA",
+    liveUrl: "https://kavach-hackathon-500511.web.app/",
   },
   {
     id: "cropsentinel",
@@ -81,7 +81,7 @@ export const pinnedProjects: Project[] = [
     category: "AgriTech",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/CropSentinel",
-    liveUrl: "#",
+    liveUrl: "https://cropsentinel-frontend-763833004328.asia-south1.run.app/",
   },
   {
     id: "dealforge",
@@ -100,7 +100,7 @@ export const pinnedProjects: Project[] = [
     category: "SalesTech",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/DealForge",
-    liveUrl: "#",
+    liveUrl: "https://dealforge-507515.web.app/",
   },
   {
     id: "intelliplant",
@@ -119,7 +119,7 @@ export const pinnedProjects: Project[] = [
     category: "Industrial AI",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/Intelliplant",
-    liveUrl: "https://intelliplant.vercel.app",
+    liveUrl: "https://intelliplant.vercel.app/",
   },
   {
     id: "medoveda",
@@ -138,7 +138,7 @@ export const pinnedProjects: Project[] = [
     category: "HealthTech",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/Medo-veda",
-    liveUrl: "#",
+    liveUrl: "https://medo-veda.netlify.app/",
   },
   {
     id: "career-spark",
@@ -157,7 +157,7 @@ export const pinnedProjects: Project[] = [
     category: "EdTech",
     featured: true,
     githubUrl: "https://github.com/Dineshkumar2006471/Career-Spark",
-    liveUrl: "https://career-spark-ashy.vercel.app",
+    liveUrl: "https://career-spark-ashy.vercel.app/",
   },
 ];
 
