@@ -3,324 +3,332 @@
 import { useState, useEffect, useRef } from "react";
 import { profile } from "@/data/profile";
 
+/* ═══════════════════════════════════════════════════════════════════
+   TYPES
+   ═══════════════════════════════════════════════════════════════════ */
+
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   defaultService?: string;
 }
 
-/* ─── SVG Icon Components ─── */
-
-function IconBot({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="10" rx="2" />
-      <circle cx="12" cy="5" r="2" />
-      <path d="M12 7v4" />
-      <circle cx="8" cy="16" r="1" />
-      <circle cx="16" cy="16" r="1" />
-    </svg>
-  );
-}
-
-function IconCode({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
-    </svg>
-  );
-}
-
-function IconShield({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <polyline points="9 12 11 14 15 10" />
-    </svg>
-  );
-}
-
-function IconCloud({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z" />
-    </svg>
-  );
-}
-
-function IconRocket({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
-      <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
-      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-    </svg>
-  );
-}
-
-function IconBriefcase({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-      <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
-    </svg>
-  );
-}
-
-function IconMail({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="4" width="20" height="16" rx="2" />
-      <path d="M22 7l-10 7L2 7" />
-    </svg>
-  );
-}
-
-function IconLock({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0110 0v4" />
-    </svg>
-  );
-}
-
-/* ─── Service Options ─── */
-
 interface ServiceDef {
   id: string;
   label: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  icon: React.ReactNode;
 }
 
-export const serviceOptions: ServiceDef[] = [
-  { id: "agents",     label: "AI agents",                Icon: IconBot },
-  { id: "fullstack",  label: "Full-stack development",   Icon: IconCode },
-  { id: "eval",       label: "AI evaluation and safety", Icon: IconShield },
-  { id: "cloud",      label: "Cloud infrastructure",     Icon: IconCloud },
-  { id: "mvp",        label: "Rapid MVP / Prototype",    Icon: IconRocket },
-  { id: "consulting", label: "Consulting / Freelance",   Icon: IconBriefcase },
+/* ═══════════════════════════════════════════════════════════════════
+   INLINE SVG ICONS — no emojis, ever
+   ═══════════════════════════════════════════════════════════════════ */
+
+const svcIcons = {
+  bot: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="10" rx="2" /><circle cx="12" cy="5" r="2" /><path d="M12 7v4" /><circle cx="8" cy="16" r="1" /><circle cx="16" cy="16" r="1" />
+    </svg>
+  ),
+  code: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+    </svg>
+  ),
+  shield: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><polyline points="9 12 11 14 15 10" />
+    </svg>
+  ),
+  cloud: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z" />
+    </svg>
+  ),
+  rocket: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" /><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+    </svg>
+  ),
+  briefcase: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+    </svg>
+  ),
+  database: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+    </svg>
+  ),
+  smartphone: (c: string) => (
+    <svg className={c} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" /><line x1="12" y1="18" x2="12.01" y2="18" />
+    </svg>
+  ),
+};
+
+/* ═══════════════════════════════════════════════════════════════════
+   SERVICE OPTIONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+export const serviceOptions: { id: string; label: string }[] = [
+  { id: "agents",     label: "AI agents" },
+  { id: "fullstack",  label: "Full-stack development" },
+  { id: "eval",       label: "AI evaluation & safety" },
+  { id: "cloud",      label: "Cloud infrastructure" },
+  { id: "mvp",        label: "Rapid MVP / Prototype" },
+  { id: "consulting", label: "Consulting / Freelance" },
+  { id: "data",       label: "Data engineering & pipelines" },
+  { id: "mobile",     label: "Mobile app development" },
 ];
 
-/* ─── Contact Modal ─── */
+const services: ServiceDef[] = [
+  { id: "agents",     label: "AI agents",                    icon: svcIcons.bot("w-[22px] h-[22px]") },
+  { id: "fullstack",  label: "Full-stack development",       icon: svcIcons.code("w-[22px] h-[22px]") },
+  { id: "eval",       label: "AI evaluation & safety",       icon: svcIcons.shield("w-[22px] h-[22px]") },
+  { id: "cloud",      label: "Cloud infrastructure",         icon: svcIcons.cloud("w-[22px] h-[22px]") },
+  { id: "mvp",        label: "Rapid MVP / Prototype",        icon: svcIcons.rocket("w-[22px] h-[22px]") },
+  { id: "consulting", label: "Consulting / Freelance",       icon: svcIcons.briefcase("w-[22px] h-[22px]") },
+  { id: "data",       label: "Data engineering & pipelines", icon: svcIcons.database("w-[22px] h-[22px]") },
+  { id: "mobile",     label: "Mobile app development",       icon: svcIcons.smartphone("w-[22px] h-[22px]") },
+];
+
+/* helper: render icon with dynamic color */
+function SvcIcon({ svcId, active }: { svcId: string; active: boolean }) {
+  const colorCls = active ? "text-white" : "text-stone-500";
+  switch (svcId) {
+    case "agents":     return <>{svcIcons.bot(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "fullstack":  return <>{svcIcons.code(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "eval":       return <>{svcIcons.shield(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "cloud":      return <>{svcIcons.cloud(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "mvp":        return <>{svcIcons.rocket(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "consulting": return <>{svcIcons.briefcase(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "data":       return <>{svcIcons.database(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    case "mobile":     return <>{svcIcons.smartphone(`w-[22px] h-[22px] ${colorCls}`)}</>;
+    default:           return null;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   COMPONENT
+   ═══════════════════════════════════════════════════════════════════ */
 
 export function ContactModal({ isOpen, onClose, defaultService }: ContactModalProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [service, setService] = useState(defaultService || serviceOptions[0].label);
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [name, setName]             = useState("");
+  const [email, setEmail]           = useState("");
+  const [phone, setPhone]           = useState("");
+  const [selectedSvc, setSelectedSvc] = useState(defaultService || services[0].id);
+  const [message, setMessage]       = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted]   = useState(false);
+  const [error, setError]           = useState<string | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
 
+  /* Focus & scroll-lock */
   useEffect(() => {
     if (isOpen) triggerRef.current = document.activeElement as HTMLElement;
   }, [isOpen]);
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     if (isOpen) {
       document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKey);
+      window.addEventListener("keydown", onKey);
     } else {
-      document.body.style.overflow = "unset";
+      document.body.style.overflow = "";
       triggerRef.current?.focus();
     }
-    return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", handleKey);
-    };
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
+  const svcLabel = services.find(s => s.id === selectedSvc)?.label || selectedSvc;
+
+  /* Submit */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!name.trim()) { setError("Please provide your full name."); return; }
-    if (!email.trim() || !email.includes("@")) { setError("Please provide a valid email address."); return; }
-
-    setIsSubmitting(true);
+    if (!name.trim()) { setError("Please enter your name."); return; }
+    if (!email.trim() || !email.includes("@")) { setError("Please enter a valid email."); return; }
+    setSubmitting(true);
     try {
       await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, service, message }),
+        body: JSON.stringify({ name, email, phone, service: svcLabel, message }),
       });
-      setIsSubmitted(true);
-    } catch {
-      setIsSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+    } catch { /* still show success */ }
+    setSubmitting(false);
+    setSubmitted(true);
   };
 
-  const mailtoUrl = `mailto:${profile.social.email}?subject=${encodeURIComponent(
-    `Project Inquiry: ${name || "Portfolio Visitor"} — ${service}`
-  )}&body=${encodeURIComponent(
-    `Hi Dinesh,\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "N/A"}\nService: ${service}\n\nDetails:\n${message || "(none)"}`
-  )}`;
+  const mailto = `mailto:${profile.social.email}?subject=${encodeURIComponent(`Project inquiry – ${svcLabel}`)}&body=${encodeURIComponent(`Hi Dinesh,\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "N/A"}\nService: ${svcLabel}\n\nDetails:\n${message || "(none)"}`)}`;
+  const whatsapp = `https://wa.me/916303048390?text=${encodeURIComponent(`Hi Dinesh! I'm ${name}. Interested in ${svcLabel}. ${email}${phone ? ` / ${phone}` : ""}. ${message || ""}`)}`;
 
-  const whatsappUrl = `https://wa.me/916303048390?text=${encodeURIComponent(
-    `Hi Dinesh! I'm ${name}. I'm interested in ${service}. Reach me at ${email}${phone ? ` / ${phone}` : ""}. ${message || ""}`
-  )}`;
-
-  /* Shared input style */
-  const inputCls =
-    "w-full h-[52px] px-4 text-[15px] text-[var(--text-primary)] bg-white border border-stone-200/80 rounded-xl placeholder:text-stone-400 focus:outline-none focus:border-[var(--accent-blue)] focus:ring-2 focus:ring-[var(--accent-blue)]/10 transition-colors";
+  /* ─── STYLES ─── */
+  const inputStyle: React.CSSProperties = {
+    width: "100%",
+    height: 50,
+    padding: "0 16px",
+    fontSize: 15,
+    color: "#1c1917",
+    background: "#ffffff",
+    border: "1px solid #e7e5e4",
+    borderRadius: 12,
+    outline: "none",
+    transition: "border-color 150ms",
+  };
 
   return (
+    /* ═══ BACKDROP ═══ */
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 anim-fade-in"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-labelledby="contact-modal-title"
+      aria-labelledby="cm-title"
+      style={{
+        position: "fixed", inset: 0, zIndex: 50,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "16px",
+        background: "rgba(0,0,0,0.32)",
+      }}
+      className="anim-fade-in"
     >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/35 backdrop-blur-sm" aria-hidden="true" />
-
-      {/* Modal Panel */}
+      {/* ═══ MODAL PANEL ═══ */}
       <div
-        ref={modalRef}
-        onClick={(e) => e.stopPropagation()}
-        className="relative z-10 w-full flex flex-col anim-scale-in overflow-hidden"
+        onClick={e => e.stopPropagation()}
+        className="anim-scale-in"
         style={{
-          maxWidth: "min(720px, calc(100vw - 40px))",
+          position: "relative",
+          width: "100%",
+          maxWidth: "min(700px, calc(100vw - 40px))",
           maxHeight: "90svh",
-          borderRadius: "24px",
+          display: "flex",
+          flexDirection: "column",
           background: "#FAF8F5",
-          boxShadow: "0 32px 80px -16px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04)",
+          borderRadius: 22,
+          boxShadow: "0 32px 80px -12px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.03)",
+          overflow: "hidden",
         }}
       >
-        {/* Scrollable Inner */}
-        <div className="overflow-y-auto flex-1 px-8 sm:px-10 pt-9 sm:pt-10 pb-8 sm:pb-10">
+        {/* ─── SCROLLABLE BODY ─── */}
+        <div style={{ overflowY: "auto", flex: 1, padding: "36px 36px 32px" }}>
 
-          {isSubmitted ? (
-            /* ═══ SUCCESS ═══ */
-            <div className="flex flex-col items-center text-center py-10 anim-scale-in">
-              <div className="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center mb-5">
-                <svg className="w-7 h-7 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+          {submitted ? (
+            /* ═══════ SUCCESS STATE ═══════ */
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "32px 0" }}>
+              <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#ecfdf5", border: "2px solid #a7f3d0", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+                <svg style={{ width: 28, height: 28, color: "#059669" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-2">Message sent.</h3>
-              <p className="text-stone-500 text-sm leading-relaxed max-w-sm mb-8">
-                Thank you, <strong className="text-stone-800">{name}</strong>. I&apos;ll follow up at <strong className="text-stone-800">{email}</strong>.
+              <h3 style={{ fontSize: 24, fontWeight: 700, color: "#1c1917", marginBottom: 8 }}>Message sent.</h3>
+              <p style={{ fontSize: 14, color: "#78716c", lineHeight: 1.6, maxWidth: 360, marginBottom: 28 }}>
+                Thank you, <strong style={{ color: "#1c1917" }}>{name}</strong>. I&apos;ll get back to you at <strong style={{ color: "#1c1917" }}>{email}</strong>.
               </p>
-              <div className="flex flex-col xs:flex-row gap-3 w-full sm:w-auto">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba5a] active:scale-95 text-white font-semibold text-sm shadow-sm transition-all cursor-pointer">
-                  WhatsApp
-                </a>
-                <a href={mailtoUrl}
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white hover:bg-stone-50 active:scale-95 text-stone-800 font-semibold text-sm border border-stone-200 transition-all cursor-pointer">
-                  Open in Email
-                </a>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+                <a href={whatsapp} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "12px 28px", borderRadius: 999, background: "#25D366", color: "#fff", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>WhatsApp</a>
+                <a href={mailto} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "12px 28px", borderRadius: 999, background: "#fff", color: "#1c1917", fontWeight: 600, fontSize: 14, textDecoration: "none", border: "1px solid #e7e5e4" }}>Open in Email</a>
               </div>
-              <button onClick={() => { setIsSubmitted(false); setName(""); setEmail(""); setPhone(""); setMessage(""); onClose(); }}
-                className="mt-8 text-sm text-stone-400 hover:text-stone-600 underline cursor-pointer">
-                Done
-              </button>
+              <button onClick={() => { setSubmitted(false); setName(""); setEmail(""); setPhone(""); setMessage(""); onClose(); }} style={{ marginTop: 28, fontSize: 13, color: "#a8a29e", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>Done</button>
             </div>
           ) : (
-            /* ═══ FORM ═══ */
+            /* ═══════ FORM ═══════ */
             <form onSubmit={handleSubmit}>
 
-              {/* ── HEADER ── */}
-              <div className="flex items-start justify-between mb-2">
+              {/* ──── HEADER ──── */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <span className="font-hand text-[15px] text-[var(--accent-blue)] block mb-1.5 select-none">
-                    Say hello :)
-                  </span>
-                  <h2 id="contact-modal-title" className="text-[1.55rem] sm:text-[1.75rem] font-bold text-stone-900 tracking-tight leading-tight">
-                    Start a conversation.
-                  </h2>
-                  <p className="text-[13px] sm:text-sm text-stone-500 mt-1">
-                    Share a few details about your project.
-                  </p>
+                  <p className="font-hand" style={{ fontSize: 15, color: "var(--accent-blue)", margin: "0 0 6px", lineHeight: 1 }}>Say hello :)</p>
+                  <h2 id="cm-title" style={{ fontSize: 22, fontWeight: 700, color: "#1c1917", margin: "0 0 4px", letterSpacing: "-0.01em", lineHeight: 1.2 }}>Start a conversation.</h2>
+                  <p style={{ fontSize: 13, color: "#a8a29e", margin: 0, lineHeight: 1.4 }}>Share a few details about your project.</p>
                 </div>
-
                 {/* Close */}
-                <button onClick={onClose} type="button" aria-label="Close"
-                  className="shrink-0 w-9 h-9 rounded-full border border-stone-200 bg-white hover:bg-stone-100 active:scale-90 flex items-center justify-center text-stone-400 hover:text-stone-700 transition-all cursor-pointer mt-1">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
+                <button type="button" onClick={onClose} aria-label="Close"
+                  style={{ width: 36, height: 36, borderRadius: "50%", border: "1px solid #e7e5e4", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginTop: 2, color: "#a8a29e", transition: "background 150ms" }}>
+                  <svg style={{ width: 15, height: 15 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                 </button>
               </div>
 
               {/* Divider */}
-              <div className="h-px bg-stone-200/70 mt-5 mb-7" />
+              <div style={{ height: 1, background: "#e7e5e4", margin: "24px 0 28px" }} />
 
+              {/* Error */}
               {error && (
-                <div className="mb-6 px-4 py-3 rounded-xl bg-red-50 border border-red-200/80 text-red-700 text-sm font-medium">
-                  {error}
-                </div>
+                <div style={{ marginBottom: 20, padding: "12px 16px", borderRadius: 12, background: "#fef2f2", border: "1px solid #fecaca", color: "#b91c1c", fontSize: 14, fontWeight: 500 }}>{error}</div>
               )}
 
-              {/* ── FULL NAME ── */}
-              <div className="mb-6">
-                <label htmlFor="contact-name" className="block text-sm font-semibold text-stone-800 mb-2">
-                  Full name <span className="text-[var(--accent-blue)]">*</span>
+              {/* ──── FULL NAME ──── */}
+              <div style={{ marginBottom: 22 }}>
+                <label htmlFor="cm-name" style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#1c1917", marginBottom: 8 }}>
+                  Full name <span style={{ color: "var(--accent-blue)" }}>*</span>
                 </label>
-                <input id="contact-name" type="text" required placeholder="Your name"
-                  value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
+                <input id="cm-name" type="text" required placeholder="Your name"
+                  value={name} onChange={e => setName(e.target.value)}
+                  style={inputStyle}
+                  onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-blue)"; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = "#e7e5e4"; }}
+                />
               </div>
 
-              {/* ── EMAIL & PHONE (2-col) ── */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-7">
+              {/* ──── EMAIL + PHONE (2-col desktop, stacked mobile) ──── */}
+              <div className="cm-two-col" style={{ display: "grid", gap: 16, marginBottom: 26 }}>
                 <div>
-                  <label htmlFor="contact-email" className="block text-sm font-semibold text-stone-800 mb-2">
-                    Work email <span className="text-[var(--accent-blue)]">*</span>
+                  <label htmlFor="cm-email" style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#1c1917", marginBottom: 8 }}>
+                    Email <span style={{ color: "var(--accent-blue)" }}>*</span>
                   </label>
-                  <input id="contact-email" type="email" required placeholder="you@company.com"
-                    value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
+                  <input id="cm-email" type="email" required placeholder="your@email.com"
+                    value={email} onChange={e => setEmail(e.target.value)}
+                    style={inputStyle}
+                    onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-blue)"; }}
+                    onBlur={e => { e.currentTarget.style.borderColor = "#e7e5e4"; }}
+                  />
                 </div>
                 <div>
-                  <label htmlFor="contact-phone" className="block text-sm font-semibold text-stone-800 mb-2">
+                  <label htmlFor="cm-phone" style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#1c1917", marginBottom: 8 }}>
                     Phone / WhatsApp
                   </label>
-                  <input id="contact-phone" type="tel" placeholder="Your number"
-                    value={phone} onChange={(e) => setPhone(e.target.value)} className={inputCls} />
+                  <input id="cm-phone" type="tel" placeholder="Your number"
+                    value={phone} onChange={e => setPhone(e.target.value)}
+                    style={inputStyle}
+                    onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-blue)"; }}
+                    onBlur={e => { e.currentTarget.style.borderColor = "#e7e5e4"; }}
+                  />
                 </div>
               </div>
 
-              {/* ── SERVICE SELECTOR (2-col vertical cards) ── */}
-              <fieldset className="mb-7">
-                <legend className="block text-sm font-semibold text-stone-800 mb-3">
+              {/* ──── SERVICE SELECTOR ──── */}
+              <fieldset style={{ border: "none", padding: 0, margin: "0 0 26px" }}>
+                <legend style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#1c1917", marginBottom: 12 }}>
                   What do you need?
                 </legend>
-                <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Select a service">
-                  {serviceOptions.map((opt) => {
-                    const active = service === opt.label;
+                <div className="cm-svc-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }} role="radiogroup">
+                  {services.map(svc => {
+                    const on = selectedSvc === svc.id;
                     return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        role="radio"
-                        aria-checked={active}
-                        onClick={() => setService(opt.label)}
-                        className={`
-                          flex flex-col items-start gap-2 px-4 pt-4 pb-3.5 rounded-2xl text-left cursor-pointer
-                          border transition-all duration-150
-                          focus:outline-none focus:ring-2 focus:ring-[var(--accent-blue)] focus:ring-offset-2
-                          ${active
-                            ? "bg-[var(--accent-blue)] text-white border-[var(--accent-blue)] shadow-[0_4px_16px_rgba(0,102,255,0.20)]"
-                            : "bg-white text-stone-700 border-stone-200/80 hover:border-stone-300 hover:shadow-sm"
-                          }
-                        `}
+                      <button key={svc.id} type="button" role="radio" aria-checked={on}
+                        onClick={() => setSelectedSvc(svc.id)}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: 8,
+                          padding: "16px 16px 14px",
+                          borderRadius: 14,
+                          border: on ? "1.5px solid var(--accent-blue)" : "1px solid #e7e5e4",
+                          background: on ? "var(--accent-blue)" : "#ffffff",
+                          cursor: "pointer",
+                          transition: "all 150ms",
+                          textAlign: "left",
+                          outline: "none",
+                        }}
                       >
-                        <opt.Icon className={`w-5 h-5 ${active ? "text-white/90" : "text-[var(--accent-blue)]"}`} />
-                        <span className={`text-[13px] sm:text-sm font-medium leading-snug ${active ? "text-white" : "text-stone-700"}`}>
-                          {opt.label}
+                        <SvcIcon svcId={svc.id} active={on} />
+                        <span style={{
+                          fontSize: 13,
+                          fontWeight: 500,
+                          lineHeight: 1.35,
+                          color: on ? "#ffffff" : "#44403c",
+                        }}>
+                          {svc.label}
                         </span>
                       </button>
                     );
@@ -328,51 +336,75 @@ export function ContactModal({ isOpen, onClose, defaultService }: ContactModalPr
                 </div>
               </fieldset>
 
-              {/* ── PROJECT DETAILS ── */}
-              <div className="mb-7">
-                <label htmlFor="contact-message" className="block text-sm font-semibold text-stone-800 mb-2">
+              {/* ──── PROJECT DETAILS ──── */}
+              <div style={{ marginBottom: 26 }}>
+                <label htmlFor="cm-msg" style={{ display: "block", fontSize: 14, fontWeight: 600, color: "#1c1917", marginBottom: 8 }}>
                   Project details
                 </label>
-                <textarea id="contact-message" rows={5}
-                  placeholder="Tell me about your idea, scope, or timeline..."
-                  value={message} onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3.5 text-[15px] text-[var(--text-primary)] bg-white border border-stone-200/80 rounded-xl placeholder:text-stone-400 focus:outline-none focus:border-[var(--accent-blue)] focus:ring-2 focus:ring-[var(--accent-blue)]/10 transition-colors resize-y min-h-[140px]"
+                <textarea id="cm-msg" rows={5} placeholder="Tell me about your idea, scope, or timeline..."
+                  value={message} onChange={e => setMessage(e.target.value)}
+                  style={{
+                    width: "100%", padding: "14px 16px", fontSize: 15, color: "#1c1917",
+                    background: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 12,
+                    outline: "none", resize: "vertical", minHeight: 130, transition: "border-color 150ms",
+                    lineHeight: 1.5,
+                  }}
+                  onFocus={e => { e.currentTarget.style.borderColor = "var(--accent-blue)"; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = "#e7e5e4"; }}
                 />
               </div>
 
-              {/* ── SUBMIT BUTTON ── */}
-              <button type="submit" disabled={isSubmitting}
-                className="w-full h-[54px] bg-[var(--accent-blue)] hover:bg-[var(--accent-blue-hover)] active:scale-[0.98] disabled:opacity-60 text-white text-[15px] font-bold rounded-2xl shadow-[0_4px_16px_rgba(0,102,255,0.22)] transition-all cursor-pointer flex items-center justify-center gap-2 select-none mb-5">
-                {isSubmitting ? (
+              {/* ──── SUBMIT ──── */}
+              <button type="submit" disabled={submitting}
+                style={{
+                  width: "100%", height: 52, borderRadius: 14,
+                  background: "var(--accent-blue)", color: "#fff",
+                  fontSize: 15, fontWeight: 700, border: "none",
+                  cursor: submitting ? "not-allowed" : "pointer",
+                  opacity: submitting ? 0.6 : 1,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  boxShadow: "0 4px 14px rgba(0,102,255,0.18)",
+                  transition: "opacity 150ms, transform 100ms",
+                  marginBottom: 18,
+                }}
+              >
+                {submitting ? (
                   <>
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", animation: "spin 0.6s linear infinite", display: "inline-block" }} />
                     Sending...
                   </>
                 ) : (
-                  <>Send message <span className="text-lg ml-0.5">&rarr;</span></>
+                  <>Send message <span style={{ fontSize: 17 }}>&rarr;</span></>
                 )}
               </button>
 
-              {/* ── PREFER EMAIL ── */}
-              <div className="flex items-center justify-center gap-1.5 text-[13px] text-stone-400 mb-1">
-                <IconMail className="w-4 h-4" />
+              {/* ──── PREFER EMAIL ──── */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontSize: 13, color: "#a8a29e" }}>
+                <svg style={{ width: 15, height: 15 }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-10 7L2 7" />
+                </svg>
                 <span>Prefer email?</span>
-                <a href={`mailto:${profile.social.email}?subject=Project%20Inquiry%20via%20Portfolio`}
-                  className="text-[var(--accent-blue)] font-medium hover:underline">
+                <a href={`mailto:${profile.social.email}?subject=Project%20Inquiry`} style={{ color: "var(--accent-blue)", fontWeight: 500, textDecoration: "none" }}>
                   Contact me directly.
                 </a>
-              </div>
-
-              {/* Privacy */}
-              <div className="flex items-center justify-center gap-1 text-[11px] text-stone-400 mt-2">
-                <IconLock className="w-3 h-3" />
-                <span>Your details are used only to respond to your inquiry.</span>
               </div>
 
             </form>
           )}
         </div>
       </div>
+
+      {/* ─── Responsive CSS ─── */}
+      <style>{`
+        .cm-two-col { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 560px) {
+          .cm-two-col { grid-template-columns: 1fr !important; }
+          .cm-svc-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 380px) {
+          .cm-svc-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }
