@@ -58,7 +58,7 @@ export const pinnedProjects: Project[] = [
     role: "Lead Systems Architect (1st Place @ Google Office)",
     stack: ["AI Agents", "Python", "FastAPI", "React", "Voice AI", "Healthcare"],
     year: "2026",
-    image: "/assets/hackathons/ai-agent-builder-2026.png",
+    image: "/assets/projects/Intelliasha.png",
     category: "Healthcare AI",
     featured: true,
     liveUrl: "https://github.com/Dineshkumar2006471/IntelliASHA",

@@ -1,15 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { profile } from "@/data/profile";
 import { skillCategories } from "@/data/skills";
 import { TechLogo, getLogoSlug } from "@/components/TechLogos";
+import { ContactModal } from "@/components/contact/ContactModal";
 
 interface AboutViewProps {
   onBack: () => void;
 }
 
 export function AboutView({ onBack }: AboutViewProps) {
+  const [isContactOpen, setIsContactOpen] = useState(false);
   return (
     <div className="subview-container">
       
@@ -46,8 +49,8 @@ export function AboutView({ onBack }: AboutViewProps) {
         </h1>
 
         <button 
-          onClick={() => window.location.href = `mailto:${profile.social.email}`}
-          className="inline-flex items-center justify-center min-w-[150px] sm:min-w-[180px] px-8 sm:px-10 py-3 sm:py-4 bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_6px_20px_rgba(0,102,255,0.28)] hover:-translate-y-1 transition-all anim-fade-up delay-3 cursor-pointer"
+          onClick={() => setIsContactOpen(true)}
+          className="inline-flex items-center justify-center min-w-[155px] sm:min-w-[185px] px-8 sm:px-10 py-[16px] sm:py-[20px] bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_8px_24px_rgba(0,102,255,0.30)] hover:-translate-y-1 transition-all anim-fade-up delay-3 cursor-pointer"
         >
           Reach out
         </button>
@@ -106,8 +109,8 @@ export function AboutView({ onBack }: AboutViewProps) {
             I&apos;m always open to discussing new ideas, AI architectures, or full-stack roles. Reach out below to start the convo.
           </p>
           <button 
-            onClick={() => window.location.href = `mailto:${profile.social.email}`}
-            className="inline-flex items-center justify-center min-w-[150px] sm:min-w-[180px] px-8 sm:px-10 py-3 sm:py-4 bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_6px_20px_rgba(0,102,255,0.28)] hover:-translate-y-1 transition-all cursor-pointer"
+            onClick={() => setIsContactOpen(true)}
+            className="inline-flex items-center justify-center min-w-[155px] sm:min-w-[185px] px-8 sm:px-10 py-[16px] sm:py-[20px] bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_8px_24px_rgba(0,102,255,0.30)] hover:-translate-y-1 transition-all cursor-pointer"
           >
             Reach out
           </button>
@@ -126,6 +129,12 @@ export function AboutView({ onBack }: AboutViewProps) {
           {profile.firstName} {profile.lastName}
         </p>
       </div>
+
+      {/* ─── PROFESSIONAL CONTACT MODAL ─── */}
+      <ContactModal 
+        isOpen={isContactOpen} 
+        onClose={() => setIsContactOpen(false)} 
+      />
 
     </div>
   );
