@@ -107,7 +107,7 @@ export function CentralHub({ onSelectDestination }: CentralHubProps) {
   const anyHovered = hoveredId !== null;
 
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-dvh w-full px-4 xs:px-6 sm:px-8 pt-10 sm:pt-16 pb-36 sm:pb-32 select-none overflow-x-hidden">
+    <div className="relative flex flex-col items-center justify-center min-h-dvh w-full px-4 xs:px-6 sm:px-8 pt-8 xs:pt-10 sm:pt-14 pb-16 xs:pb-20 sm:pb-24 select-none overflow-x-hidden">
 
       {/* ─── GREETING ─── */}
       <div 
@@ -289,6 +289,22 @@ export function CentralHub({ onSelectDestination }: CentralHubProps) {
         <p className="text-xs xs:text-sm sm:text-[0.95rem] text-[var(--text-secondary)] leading-relaxed font-medium">
           Hey there! I&apos;m <span className="text-[var(--text-primary)] font-bold">Dinesh</span> — an AI/ML and full-stack builder exploring agents, cloud infrastructure, and human-centric products. I love solving hard problems and occasionally collab with visionaries to bring even more ideas to life.
         </p>
+      </div>
+
+      {/* ─── RESUME BUTTON (DYNAMICALLY CENTERED BETWEEN INTRO TEXT & 3 DOTS) ─── */}
+      <div 
+        className={`flex-1 w-full flex items-center justify-center min-h-[85px] xs:min-h-[105px] sm:min-h-[120px] transition-all duration-500 z-10 ${
+          anyHovered ? "opacity-30 blur-[3px]" : "opacity-100 blur-0"
+        }`}
+      >
+        <a
+          href="/DK_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center min-w-[155px] sm:min-w-[185px] px-8 sm:px-10 py-[17px] sm:py-[21px] bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_8px_24px_rgba(0,102,255,0.30)] hover:-translate-y-1 transition-all cursor-pointer select-none"
+        >
+          Resume
+        </a>
       </div>
       
     </div>
