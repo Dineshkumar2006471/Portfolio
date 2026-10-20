@@ -7,7 +7,19 @@ export function SocialDots() {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="fixed bottom-4 xs:bottom-5 sm:bottom-7 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-none select-none">
+    <div className="fixed bottom-7 xs:bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center pointer-events-none select-none">
+
+      {/* ─── RESUME BUTTON ─── */}
+      <div className="pointer-events-auto mb-4 xs:mb-5 sm:mb-6">
+        <a
+          href="/DK_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center min-w-[155px] sm:min-w-[185px] px-8 sm:px-10 py-[17px] sm:py-[21px] bg-[#0066FF] hover:bg-blue-600 active:scale-95 text-white text-base sm:text-lg font-bold rounded-full shadow-[0_8px_24px_rgba(0,102,255,0.32)] hover:-translate-y-1 transition-all cursor-pointer select-none"
+        >
+          Resume
+        </a>
+      </div>
 
       {/* ─── 3 DOTS (STATIC, HOVER ON DESKTOP & TAP ON MOBILE EXPANDS SOCIAL ICONS) ─── */}
       <div
