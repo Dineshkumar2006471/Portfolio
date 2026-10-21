@@ -94,7 +94,7 @@ const services: ServiceDef[] = [
 
 /* helper: render icon with dynamic color */
 function SvcIcon({ svcId, active }: { svcId: string; active: boolean }) {
-  const colorCls = active ? "text-white" : "text-stone-500";
+  const colorCls = active ? "text-[var(--accent-blue)]" : "text-stone-500";
   switch (svcId) {
     case "agents":     return <>{svcIcons.bot(`w-[22px] h-[22px] ${colorCls}`)}</>;
     case "fullstack":  return <>{svcIcons.code(`w-[22px] h-[22px] ${colorCls}`)}</>;
@@ -306,27 +306,30 @@ export function ContactModal({ isOpen, onClose, defaultService }: ContactModalPr
                     return (
                       <button key={svc.id} type="button" role="radio" aria-checked={on}
                         onClick={() => setSelectedSvc(svc.id)}
+                        className={`svc-btn ${on ? "svc-active" : ""}`}
                         style={{
                           display: "flex",
                           flexDirection: "column",
                           alignItems: "flex-start",
                           gap: 8,
-                          padding: "16px 16px 14px",
+                          padding: "14px 14px 12px",
                           borderRadius: 14,
-                          border: on ? "1.5px solid var(--accent-blue)" : "1px solid #e7e5e4",
-                          background: on ? "var(--accent-blue)" : "#ffffff",
+                          border: on ? "2px solid #0066FF" : "1px solid #e7e5e4",
+                          background: on ? "#EFF6FF" : "#ffffff",
+                          boxShadow: on ? "0 2px 8px rgba(0, 102, 255, 0.12)" : "none",
                           cursor: "pointer",
-                          transition: "all 150ms",
+                          transition: "all 150ms ease",
                           textAlign: "left",
                           outline: "none",
+                          WebkitTapHighlightColor: "transparent",
                         }}
                       >
                         <SvcIcon svcId={svc.id} active={on} />
                         <span style={{
                           fontSize: 13,
-                          fontWeight: 500,
+                          fontWeight: on ? 600 : 500,
                           lineHeight: 1.35,
-                          color: on ? "#ffffff" : "#44403c",
+                          color: on ? "#0066FF" : "#1c1917",
                         }}>
                           {svc.label}
                         </span>
@@ -397,6 +400,11 @@ export function ContactModal({ isOpen, onClose, defaultService }: ContactModalPr
       {/* ─── Responsive CSS ─── */}
       <style>{`
         .cm-two-col { grid-template-columns: 1fr 1fr; }
+        .svc-btn.svc-active {
+          background-color: #EFF6FF !important;
+          border-color: #0066FF !important;
+          border-width: 2px !important;
+        }
         @media (max-width: 560px) {
           .cm-two-col { grid-template-columns: 1fr !important; }
           .cm-svc-grid { grid-template-columns: 1fr 1fr !important; }

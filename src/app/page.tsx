@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { CentralHub, DestinationId } from "@/components/hub/CentralHub";
-import { SocialDots } from "@/components/hub/SocialDots";
 import { AboutView } from "@/components/views/AboutView";
 import { ProjectsView } from "@/components/views/ProjectsView";
 import { InternshipsView } from "@/components/views/InternshipsView";
@@ -25,8 +24,6 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh relative">
-
-      {/* Main content — full viewport */}
       <main className="w-full">
         {active === null && <CentralHub onSelectDestination={select} activeDestination={null} />}
         {active === "about" && <AboutView onBack={back} />}
@@ -36,10 +33,6 @@ export default function Home() {
         {active === "hackathons" && <HackathonsView onBack={back} />}
         {active === "networking" && <NetworkingView onBack={back} />}
       </main>
-
-      {/* Floating resume button & social dots — ONLY on main home central hub */}
-      {active === null && <SocialDots />}
-
     </div>
   );
 }

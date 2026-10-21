@@ -11,7 +11,7 @@
    ============================================================ */
 
 :root {
-  --bg-page: #FBF9F5;
+  --bg-page: #FAF8F5;
   --bg-surface: #FFFFFF;
   --bg-surface-subtle: #F5F3ED;
 
@@ -51,10 +51,13 @@ html {
 
 body {
   min-height: 100dvh;
-  background-color: var(--bg-page);
-  background-image:
-    radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-color: #fbf9f5;
+  background-image: radial-gradient(
+    circle,
+    rgba(75, 70, 65, 0.12) 0.8px,
+    transparent 0.9px
+  );
+  background-size: 24px 24px;
   background-attachment: fixed;
   color: var(--text-primary);
   font-family: var(--font-body);

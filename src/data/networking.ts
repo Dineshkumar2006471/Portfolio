@@ -50,7 +50,7 @@ export const communityMemberships: CommunityMembership[] = [
   },
   {
     id: "mckinsey-forward",
-    name: "Forward Program",
+    name: "Forward Network Alumni",
     organization: "McKinsey & Company",
     role: "Forward Learner ➔ Forward Network Alumni",
     period: "2023 – Jun 2026 (Issued Jun 2026)",
