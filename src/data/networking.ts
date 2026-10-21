@@ -53,14 +53,14 @@ export const communityMemberships: CommunityMembership[] = [
     name: "Forward Network Alumni",
     organization: "McKinsey & Company",
     role: "Forward Learner ➔ Forward Network Alumni",
-    period: "2023 – Jun 2026 (Issued Jun 2026)",
+    period: "Apr 2026 – Present 2026",
     location: "Global Digital Network",
     badge: "/assets/networking/mckinsey-forward-badge.png",
     badgeContainerClass: "w-[75px] h-[75px]",
     category: "Executive Leadership & Problem Solving",
-    journeyStage: "Forward Learner (2023) ➔ Forward Network Alumni (Issued Jun 2026)",
+    journeyStage: "Forward Learner (Apr 2026) ➔ Forward Network Alumni (Present 2026)",
     summary:
-      "First joined as a Forward Learner in 2023, advancing through McKinsey & Company's flagship leadership development program to graduate and become an active Forward Network Alumni in June 2026. Mastered structured business problem-solving, digital communication, adaptable leadership, and collaborative execution under McKinsey's global framework.",
+      "Joined as a Forward Learner in April 2026, advancing through McKinsey & Company's flagship leadership development program as an active Forward Network Alumni in 2026. Mastered structured business problem-solving, digital communication, adaptable leadership, and collaborative execution under McKinsey's global framework.",
     keyContributions: [
       "Advanced across all program stages from foundational Forward Learner to verified Forward Network Alumni status.",
       "Mastered structured hypothesis-driven problem-solving and executive communication frameworks.",

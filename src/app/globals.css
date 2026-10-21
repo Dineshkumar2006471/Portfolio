@@ -271,11 +271,11 @@ body {
 /* ─── EXTRA-SMALL MOBILE (<375px) SAFETY ─── */
 @media (max-width: 374px) {
   .subview-container {
-    padding-left: 0.625rem;
-    padding-right: 0.625rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
   .subview-card-pad {
-    padding: 14px !important;
+    padding: 20px !important;
   }
 }
 
